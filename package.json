@@ -1,0 +1,23 @@
+{
+  "name": "life",
+  "version": "0.0.1",
+  "description": "A js implementation of the Game of Life",
+  "main": "life.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aacn500/life.git"
+  },
+  "author": "@aacn500",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aacn500/life/issues"
+  },
+  "homepage": "https://aacn500.github.io/life",
+  "dependencies": {},
+  "devDependencies": {
+    "log-update": "^2.3.0"
+  }
+}
