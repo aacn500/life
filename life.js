@@ -1,7 +1,11 @@
 'use strict';
 
+const DEAD = 0;
+const LIVE = 1;
+
 class Game {
-  constructor(grid, randomise=true) {
+
+  constructor(grid, rules="23/3", randomise=true) {
     if (Array.isArray(grid)) {
       this.grid = grid;
       this.height = this.grid.length;
@@ -13,6 +17,23 @@ class Game {
       this.grid = Game.buildGrid(10, 10, randomise);
       this.height = this.width = 10;
     }
+    this.rules = Game.parseRules(rules);
+  }
+
+  static get DEAD() {
+    return DEAD;
+  }
+
+  static get LIVE() {
+    return LIVE;
+  }
+
+  static parseRules(rulestring) {
+    let [survival, birth] = rulestring.split('/');
+    return {
+      survival: survival.split('').map(digit => parseInt(digit, 10)),
+      birth: birth.split('').map(digit => parseInt(digit, 10))
+    };
   }
 
   static buildGrid(width, height, randomise=true) {
@@ -24,7 +45,7 @@ class Game {
         if (randomise)
           row.push(Math.round(Math.random()));
         else
-          row.push(0);
+          row.push(DEAD);
       }
       grid.push(row);
     }
@@ -52,24 +73,16 @@ class Game {
       return row.map(function(element, j) {
         let neighbours = this.sumNeighbours(i, j);
 
-        if (this.grid[i][j] === 0) {
-          // Creation of Life
-          if (neighbours === 3)
-            return 1;
-
-          // Remains the same
-          return 0;
-        }
-
-        // Survival
-        if (neighbours === 2 || neighbours === 3)
+        if (this.grid[i][j] === DEAD && this.rules.birth.includes(neighbours))
+          return 1;
+        else if (this.grid[i][j] === LIVE && this.rules.survival.includes(neighbours))
           return 1;
 
-        // Under or Overpopulation
         return 0;
       }, this);
     }, this);
   }
+
 }
 
 module.exports = Game;
