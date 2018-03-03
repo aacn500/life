@@ -5,7 +5,7 @@ const LIVE = 1;
 
 class Game {
 
-  constructor(grid, rules="23/3", randomise=true) {
+  constructor(grid, rules='23/3', randomise=true) {
     if (Array.isArray(grid)) {
       this.grid = grid;
       this.height = this.grid.length;
@@ -57,8 +57,8 @@ class Game {
     let sum = 0;
 
     // iterate over the 3x3 grid surrounding cell(x, y)
-    for (let i of [x - 1, x, x + 1])
-      for (let j of [y - 1, y, y + 1])
+    for (let i = x - 1; i <= x + 1; i++)
+      for (let j = y - 1; j <= y + 1; j++)
         // check cell(i, j) is within the grid
         if (i >= 0 && i < this.height && j >= 0 && j < this.width)
           // this cell is not a neighbour of itself
@@ -74,11 +74,11 @@ class Game {
         let neighbours = this.sumNeighbours(i, j);
 
         if (this.grid[i][j] === DEAD && this.rules.birth.includes(neighbours))
-          return 1;
+          return LIVE;
         else if (this.grid[i][j] === LIVE && this.rules.survival.includes(neighbours))
-          return 1;
+          return LIVE;
 
-        return 0;
+        return DEAD;
       }, this);
     }, this);
   }
