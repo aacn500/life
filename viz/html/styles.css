@@ -9,10 +9,6 @@ body {
   margin-top: 1px;
 }
 
-.row-top {
-  margin-bottom: 3px;
-}
-
 .cell {
   float: left;
   height: inherit;
@@ -23,7 +19,7 @@ body {
 
 .cell-top {
   border-top: 1px solid black;
-  margin-bottom: 1px;
+  margin-bottom: -1px;
 }
 
 .cell-left {

@@ -1,11 +1,5 @@
 import Game from '../..';
 
-function hw(s) {
-  let element = document.createElement('div');
-  element.innerHTML = s;
-  return element;
-}
-
 function renderGrid(grid, container) {
   for (let i = 0; i < grid.length; i++) {
     let row = container.children[i];
@@ -25,9 +19,6 @@ let container = document.getElementById('container');
 for (let n_row = 0; n_row < gridsize; n_row++) {
   let row = document.createElement('div');
   row.classList.add('row');
-
-  if (n_row === 0)
-    row.classList.add('row-top');
 
   for (let n_cell = 0; n_cell < gridsize; n_cell++) {
     let cell = document.createElement('div');
