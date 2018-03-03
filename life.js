@@ -3,6 +3,8 @@
 const DEAD = 0;
 const LIVE = 1;
 
+const defaultGridSize = 10;
+
 class Game {
 
   constructor(grid, rules='23/3', randomise=true) {
@@ -14,8 +16,8 @@ class Game {
       this.grid = Game.buildGrid(grid, grid, randomise);
       this.height = this.width = grid;
     } else {
-      this.grid = Game.buildGrid(10, 10, randomise);
-      this.height = this.width = 10;
+      this.grid = Game.buildGrid(defaultGridSize, defaultGridSize, randomise);
+      this.height = this.width = defaultGridSize;
     }
     this.rules = Game.parseRules(rules);
   }
