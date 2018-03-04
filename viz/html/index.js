@@ -1,5 +1,8 @@
 import Game from '../..';
 
+const gridsize = 70;
+const container = document.getElementById('container');
+
 function renderGrid(grid, container) {
   for (let i = 0; i < grid.length; i++) {
     let row = container.children[i];
@@ -13,34 +16,71 @@ function renderGrid(grid, container) {
   }
 }
 
-let gridsize = 70;
-let container = document.getElementById('container');
+function setup() {
+  setupButtons();
+  for (let n_row = 0; n_row < gridsize; n_row++) {
+    let row = document.createElement('div');
+    row.classList.add('row');
 
-for (let n_row = 0; n_row < gridsize; n_row++) {
-  let row = document.createElement('div');
-  row.classList.add('row');
+    for (let n_cell = 0; n_cell < gridsize; n_cell++) {
+      let cell = document.createElement('div');
+      cell.classList.add('cell');
 
-  for (let n_cell = 0; n_cell < gridsize; n_cell++) {
-    let cell = document.createElement('div');
-    cell.classList.add('cell');
+      if (n_row === 0)
+        cell.classList.add('cell-top');
 
-    if (n_row === 0)
-      cell.classList.add('cell-top');
+      if (n_cell === 0)
+        cell.classList.add('cell-left');
 
-    if (n_cell === 0)
-      cell.classList.add('cell-left');
+      row.appendChild(cell);
+    }
 
-    row.appendChild(cell);
+    container.appendChild(row);
   }
 
-  container.appendChild(row);
+  let game = new Game(gridsize);
+
+  renderGrid(game.grid, container);
+
+  let intervalID = setInterval(function() {
+    game.iterate();
+    renderGrid(game.grid, container);
+  }, 200);
+
+  return { game, intervalID };
 }
 
-let game = new Game(gridsize);
+function setupButtons() {
+  document.getElementById('btn-pause').onclick = pause;
+  document.getElementById('btn-step').onclick = step;
+  document.getElementById('btn-play').onclick = play;
+  document.getElementById('btn-reset').onclick = reset;
+}
 
-renderGrid(game.grid, container);
+function pause() {
+  clearInterval(intervalID);
+  intervalID = 0;
+}
 
-let intervalID = setInterval(function() {
+function step() {
+  if (intervalID)
+    pause();
   game.iterate();
   renderGrid(game.grid, container);
-}, 200);
+}
+
+function play() {
+  if (!intervalID)
+    intervalID = setInterval(function() {
+      game.iterate();
+      renderGrid(game.grid, container);
+    }, 200);
+}
+
+function reset() {
+  game = new Game(gridsize);
+  renderGrid(game.grid, container);
+}
+
+
+let { game, intervalID } = setup();
